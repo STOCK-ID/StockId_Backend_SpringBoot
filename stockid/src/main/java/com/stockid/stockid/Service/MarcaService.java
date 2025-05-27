@@ -8,7 +8,6 @@ import org.springframework.stereotype.Service;
 
 import com.stockid.stockid.Repository.MarcaRepository;
 import com.stockid.stockid.model.Marca;
-import com.stockid.stockid.model.DTOs.MarcaDTO;
 import com.stockid.stockid.model.WriteDTOs.MarcaWriteDTO;
 
 @Service
@@ -51,12 +50,21 @@ public class MarcaService {
 
     public void deleteMarca(Integer id) {
         Marca marca = getMarcaById(id);
-        
-        if (marca == null) {
-            throw new RuntimeException("Marca nao encontrada com id: " + id);
-        }
 
         marca.setActive(false);
+        marca.setLastUpdate(LocalDateTime.now());
+
+        marcaRepository.save(marca);
+    }
+
+    public void reactivateMarca(Integer id) {
+        Marca marca = getMarcaById(id);
+
+        if (marca.isActive()) {
+            throw new RuntimeException("Marca já está ativa");
+        }
+
+        marca.setActive(true);
         marca.setLastUpdate(LocalDateTime.now());
 
         marcaRepository.save(marca);
