@@ -4,10 +4,14 @@ import com.stockid.stockid.enums.EnumCategoria;
 import com.stockid.stockid.model.DTOs.IntDomainDTO;
 import com.stockid.stockid.model.DTOs.MarcaDTO;
 
+import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
+import lombok.NoArgsConstructor;
 
 @Data
+@NoArgsConstructor
+@AllArgsConstructor
 @EqualsAndHashCode(callSuper = false)
 public class ProdutoDTO extends IntDomainDTO {
     private MarcaDTO marca;
