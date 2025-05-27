@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -23,4 +24,9 @@ public class ProdutoController {
     public ResponseEntity<List<Produto>> getAllProduct() {
         return ResponseEntity.ok(produtoService.getAllProducts());
     }
-}
+
+    @GetMapping("{id}")
+    public ResponseEntity<Produto> getProdutoById(@PathVariable Integer id) {
+        return ResponseEntity.ok(produtoService.getProdutoById(id));
+    }
+ }

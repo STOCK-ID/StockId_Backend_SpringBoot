@@ -11,9 +11,14 @@ import com.stockid.stockid.model.Produto;
 public class ProdutoService {
 
     @Autowired
-    private ProdutoRepository produtoRepostory;
+    private ProdutoRepository produtoRepository;
 
     public List<Produto> getAllProducts() {
-        return produtoRepostory.findAll();
+        return produtoRepository.findAll();
+    }
+
+    public Produto getProdutoById(Integer id) {
+        return produtoRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Produto nã encontrado com o id: " + id));
     }
 }
