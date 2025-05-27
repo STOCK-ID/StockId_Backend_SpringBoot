@@ -43,9 +43,22 @@ public class MarcaService {
 
             lastMarca.setNome(marcaWriteDTO.getNome());
             lastMarca.setLastUpdate(LocalDateTime.now());
-            
+
             Marca updatedMarca = marcaRepository.save(lastMarca);
             return updatedMarca;
         }
+    }
+
+    public void deleteMarca(Integer id) {
+        Marca marca = getMarcaById(id);
+        
+        if (marca == null) {
+            throw new RuntimeException("Marca nao encontrada com id: " + id);
+        }
+
+        marca.setActive(false);
+        marca.setLastUpdate(LocalDateTime.now());
+
+        marcaRepository.save(marca);
     }
 }
