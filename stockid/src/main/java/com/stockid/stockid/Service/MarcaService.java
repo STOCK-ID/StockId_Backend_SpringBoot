@@ -7,6 +7,8 @@ import org.springframework.stereotype.Service;
 
 import com.stockid.stockid.Repository.MarcaRepository;
 import com.stockid.stockid.model.Marca;
+import com.stockid.stockid.model.DTOs.MarcaDTO;
+import com.stockid.stockid.model.WriteDTOs.MarcaWriteDTO;
 
 @Service
 public class MarcaService {
@@ -21,5 +23,13 @@ public class MarcaService {
     public Marca getMarcaById(Integer id) {
         return marcaRepository.findById(id).
                 orElseThrow(() -> new RuntimeException("Marca not found with id: " + id));
+    }
+
+    public Marca createMarca(MarcaWriteDTO marcaWriteDTO) {
+        Marca marca = new Marca(marcaWriteDTO.getNome());
+
+        Marca newMarca = marcaRepository.save(marca);
+
+        return newMarca;
     }
 }
