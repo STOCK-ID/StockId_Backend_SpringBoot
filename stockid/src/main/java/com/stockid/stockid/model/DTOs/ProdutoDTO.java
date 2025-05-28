@@ -1,8 +1,6 @@
-package com.stockid.stockid.model;
+package com.stockid.stockid.model.DTOs;
 
 import com.stockid.stockid.enums.EnumCategoria;
-import com.stockid.stockid.model.DTOs.IntDomainDTO;
-import com.stockid.stockid.model.DTOs.MarcaDTO;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
