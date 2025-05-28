@@ -30,9 +30,14 @@ public class ProdutoController {
         return ResponseEntity.ok(produtoService.getAllProducts());
     }
 
-    @GetMapping("{id}")
+    @GetMapping("/id/{id}")
     public ResponseEntity<Produto> getProdutoById(@PathVariable Integer id) {
         return ResponseEntity.ok(produtoService.getProdutoById(id));
+    }
+
+    @GetMapping("/gtin/{gtin}")
+    public ResponseEntity<Produto> getProdutoByGtin(@PathVariable String gtin) {
+        return ResponseEntity.ok(produtoService.getProdutoByGtin(gtin));
     }
 
     @PostMapping

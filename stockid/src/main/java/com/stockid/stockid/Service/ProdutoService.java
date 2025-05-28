@@ -26,7 +26,17 @@ public class ProdutoService {
 
     public Produto getProdutoById(Integer id) {
         return produtoRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Produto nã encontrado com o id: " + id));
+                .orElseThrow(() -> new RuntimeException("Produto não encontrado com o id: " + id));
+    }
+
+    public Produto getProdutoByGtin(String gtin) {
+        
+        if(!gtin.matches("\\d{8,14}")) {
+            throw new IllegalArgumentException("GTIN deve conter entre 8 e 14 dígitos.");
+        }
+
+        return produtoRepository.findByGtin(gtin).
+                orElseThrow(() -> new RuntimeException("Produto não encontrado com o GTIN: " + gtin));
     }
 
     @Transactional
