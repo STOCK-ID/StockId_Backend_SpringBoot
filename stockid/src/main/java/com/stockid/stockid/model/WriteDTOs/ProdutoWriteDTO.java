@@ -1,5 +1,7 @@
 package com.stockid.stockid.model.WriteDTOs;
 
+import com.stockid.stockid.enums.EnumCategoria;
+
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -15,5 +17,5 @@ public class ProdutoWriteDTO {
     private String nome;
     private String gtin;
     private String unidadeDesc;
-    private String categoria;
+    private EnumCategoria categoria;
 }
