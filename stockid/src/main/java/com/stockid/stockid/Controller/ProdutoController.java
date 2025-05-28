@@ -6,11 +6,16 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.stockid.stockid.Service.ProdutoService;
 import com.stockid.stockid.model.Produto;
+import com.stockid.stockid.model.WriteDTOs.ProdutoWriteDTO;
+
+import jakarta.transaction.Transactional;
 
 
 @RestController
@@ -28,5 +33,11 @@ public class ProdutoController {
     @GetMapping("{id}")
     public ResponseEntity<Produto> getProdutoById(@PathVariable Integer id) {
         return ResponseEntity.ok(produtoService.getProdutoById(id));
+    }
+
+    @PostMapping
+    @Transactional
+    public ResponseEntity<Produto> createrProduto(@RequestBody ProdutoWriteDTO produtoWriteDTO) {
+        return ResponseEntity.ok(produtoService.createProduto(produtoWriteDTO));
     }
  }
