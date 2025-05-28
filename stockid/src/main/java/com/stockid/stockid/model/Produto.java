@@ -1,6 +1,5 @@
 package com.stockid.stockid.model;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.stockid.stockid.enums.EnumCategoria;
 
 import jakarta.persistence.Column;
@@ -23,7 +22,6 @@ public class Produto extends IntDomain {
 
     @ManyToOne
     @JoinColumn(name = "marca_id", nullable = false, unique = false)
-    @JsonIgnore
     private Marca marca;
 
     @Enumerated(EnumType.STRING)
@@ -36,6 +34,6 @@ public class Produto extends IntDomain {
     @Column(name = "nome", unique = false, nullable = false, length= 100)
     private String nome;
 
-    @Column(name = "unidade_desc", unique = false, nullable = false, length= 10)
+    @Column(name = "unidade_desc", unique = false, nullable = false, length= 150)
     private String unidadeDesc;
 }
