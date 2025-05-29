@@ -79,4 +79,16 @@ public class ProdutoService {
         produto.setActive(false);
         produto.setLastUpdate(LocalDateTime.now());
     }
+
+    @Transactional
+    public void reactivateProduto(Integer id) {
+        Produto produto = getProdutoById(id);
+
+        if(produto.isActive()) {
+            throw new RuntimeException("Produto já está ativo");
+        }
+
+        produto.setActive(true);
+        produto.setLastUpdate(LocalDateTime.now());
+    }
 }
