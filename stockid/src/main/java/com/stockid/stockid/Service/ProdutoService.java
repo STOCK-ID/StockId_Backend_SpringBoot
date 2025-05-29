@@ -71,4 +71,12 @@ public class ProdutoService {
 
         return produtoRepository.save(lastProduto);
     }
+
+    @Transactional
+    public void deleteProduto(Integer id) {
+        Produto produto = getProdutoById(id);
+
+        produto.setActive(false);
+        produto.setLastUpdate(LocalDateTime.now());
+    }
 }
