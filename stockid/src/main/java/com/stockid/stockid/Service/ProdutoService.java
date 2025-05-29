@@ -1,5 +1,6 @@
 package com.stockid.stockid.Service;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,6 +12,7 @@ import com.stockid.stockid.model.Produto;
 import com.stockid.stockid.model.WriteDTOs.ProdutoWriteDTO;
 
 import jakarta.transaction.Transactional;
+
 @Service
 public class ProdutoService {
 
@@ -51,5 +53,22 @@ public class ProdutoService {
 
         return produtoRepository.save(produto);
 
+    }
+
+    @Transactional
+    public Produto updateProduto(Integer id, ProdutoWriteDTO produtoWriteDTO) {
+        
+        Produto lastProduto = getProdutoById(id);
+
+        Marca marca = marcaService.getMarcaById(produtoWriteDTO.getMarcaId());
+
+        lastProduto.setNome(produtoWriteDTO.getNome());
+        lastProduto.setMarca(marca);
+        lastProduto.setCategoria(produtoWriteDTO.getCategoria());
+        lastProduto.setUnidadeDesc(produtoWriteDTO.getUnidadeDesc());
+
+        lastProduto.setLastUpdate(LocalDateTime.now());
+
+        return produtoRepository.save(lastProduto);
     }
 }
