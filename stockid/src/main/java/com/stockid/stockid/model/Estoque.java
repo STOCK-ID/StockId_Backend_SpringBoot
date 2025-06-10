@@ -5,6 +5,7 @@ import java.time.LocalDate;
 import com.stockid.stockid.enums.EnumStatusLote;
 
 import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
 import jakarta.persistence.JoinColumn;
@@ -18,6 +19,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 @EqualsAndHashCode(callSuper = false)
+@Entity
 public class Estoque extends IntDomain {
 
     @ManyToOne
