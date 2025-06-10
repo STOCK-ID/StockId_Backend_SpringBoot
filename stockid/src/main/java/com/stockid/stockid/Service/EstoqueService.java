@@ -43,4 +43,9 @@ public class EstoqueService {
     public List<Estoque> findAllEstoque() {
         return estoqueRepository.findAll();
     }
+
+    public Estoque findByIdOrThrow(Integer id) {
+        return estoqueRepository.findById(id)
+        .orElseThrow(() -> new RuntimeException("Estoque não encontrado " + id));
+    }
 }
