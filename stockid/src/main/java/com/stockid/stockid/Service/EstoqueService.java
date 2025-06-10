@@ -1,5 +1,7 @@
 package com.stockid.stockid.Service;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -36,5 +38,9 @@ public class EstoqueService {
         Estoque estoque = estoqueRepository.save(newEstoque);
 
         return estoque;
+    }
+
+    public List<Estoque> findAllEstoque() {
+        return estoqueRepository.findAll();
     }
 }
