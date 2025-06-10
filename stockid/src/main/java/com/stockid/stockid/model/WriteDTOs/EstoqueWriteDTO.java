@@ -1,5 +1,7 @@
 package com.stockid.stockid.model.WriteDTOs;
 
+import java.time.LocalDate;
+
 import com.stockid.stockid.enums.EnumStatusLote;
 
 import lombok.Data;
@@ -11,8 +13,8 @@ public class EstoqueWriteDTO {
     private Integer quantidadeAtual;
     private Integer quantidadeMinima;
     private String unidadeMEdida;
-    private String validade;
-    private String entrada;
+    private LocalDate validade;
+    private LocalDate entrada;
     private Double precoCompra;
     private Double precoVenda;
     private EnumStatusLote statusLote;
