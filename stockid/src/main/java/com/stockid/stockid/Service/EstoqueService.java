@@ -26,22 +26,10 @@ public class EstoqueService {
     public Estoque createLote(EstoqueWriteDTO estoqueWriteDTO) {
         Produto produto = produtoService.getProdutoById(estoqueWriteDTO.getProdutoId());
         
-        Estoque newEstoque = new Estoque(
-            produto,
-            estoqueWriteDTO.getLote(),
-            estoqueWriteDTO.getQuantidadeAtual(),
-            estoqueWriteDTO.getQuantidadeMinima(),
-            estoqueWriteDTO.getUnidadeMEdida(),
-            estoqueWriteDTO.getValidade(),
-            estoqueWriteDTO.getEntrada(),
-            estoqueWriteDTO.getPrecoCompra(),
-            estoqueWriteDTO.getPrecoVenda(),
-            estoqueWriteDTO.getStatusLote()
-        );
+        Estoque newEstoque = new Estoque(estoqueWriteDTO);
+        newEstoque.setProduto(produto);
 
-        Estoque estoque = estoqueRepository.save(newEstoque);
-
-        return estoque;
+        return estoqueRepository.save(newEstoque);;
     }
 
     public List<EstoqueDTO> findAllEstoque() {
