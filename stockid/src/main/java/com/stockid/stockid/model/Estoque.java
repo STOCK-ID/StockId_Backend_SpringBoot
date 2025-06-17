@@ -2,7 +2,10 @@ package com.stockid.stockid.model;
 
 import java.time.LocalDate;
 
+import com.spec.speedspring.core.dtoConvertable.DTOConvertable;
 import com.stockid.stockid.enums.EnumStatusLote;
+import com.stockid.stockid.model.DTOs.EstoqueDTO;
+import com.stockid.stockid.model.WriteDTOs.EstoqueWriteDTO;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -20,7 +23,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @EqualsAndHashCode(callSuper = false)
 @Entity
-public class Estoque extends IntDomain {
+public class Estoque extends IntDomain implements DTOConvertable<EstoqueWriteDTO, EstoqueDTO>{
 
     @ManyToOne
     @JoinColumn(name = "produto_id", nullable = false)
@@ -53,5 +56,19 @@ public class Estoque extends IntDomain {
     @Enumerated(EnumType.STRING)
     @Column(name = "statusLote", nullable = false, length = 60)
     private EnumStatusLote statusLote;
+
+    @Override
+    public Class<EstoqueDTO> getDTOClass() {
+        return EstoqueDTO.class;
+    }
+
+    @Override
+    public boolean getLog() {
+        return false;
+    }
+
+    public Estoque (EstoqueWriteDTO estoqueW) {
+        initBy(estoqueW);
+    }
 
 }
