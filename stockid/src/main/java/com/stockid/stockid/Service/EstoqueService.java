@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 import com.stockid.stockid.Repository.EstoqueRepository;
 import com.stockid.stockid.model.Estoque;
 import com.stockid.stockid.model.Produto;
+import com.stockid.stockid.model.DTOs.EstoqueDTO;
 import com.stockid.stockid.model.WriteDTOs.EstoqueWriteDTO;
 
 import jakarta.transaction.Transactional;
@@ -43,8 +44,10 @@ public class EstoqueService {
         return estoque;
     }
 
-    public List<Estoque> findAllEstoque() {
-        return estoqueRepository.findAll();
+    public List<EstoqueDTO> findAllEstoque() {
+        List<Estoque> estoques = estoqueRepository.findAll(); 
+        
+        return estoques.stream().map(Estoque::toDTO).toList();
     }
 
     public Estoque findByIdOrThrow(Integer id) {

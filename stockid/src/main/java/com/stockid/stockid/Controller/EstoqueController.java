@@ -1,6 +1,8 @@
 package com.stockid.stockid.Controller;
 
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -15,6 +17,7 @@ import com.spec.speedspring.core.controller.GenericRestController;
 import com.spec.speedspring.core.responses.GenericResponse;
 import com.stockid.stockid.Service.EstoqueService;
 import com.stockid.stockid.model.Estoque;
+import com.stockid.stockid.model.DTOs.EstoqueDTO;
 import com.stockid.stockid.model.WriteDTOs.EstoqueWriteDTO;
 
 @RestController
@@ -25,31 +28,35 @@ public class EstoqueController extends GenericRestController{
     EstoqueService estoqueService;
 
     @PostMapping
-    public ResponseEntity createLote(@RequestBody EstoqueWriteDTO estoqueWriteDTO) {
+    public ResponseEntity<GenericResponse> createLote(@RequestBody EstoqueWriteDTO estoqueWriteDTO) {
         try {
-            return ResponseEntity.ok().body(estoqueService.createLote(estoqueWriteDTO));
+            Estoque newEstoque = estoqueService.createLote(estoqueWriteDTO);
+
+            return getResponseOK("Estoque criado com sucesso!", newEstoque.toDTO());
         } catch (Exception e) {
-            return ResponseEntity.badRequest().body(e.getMessage());
+            return getResponseException(e);
         }
     }
 
     @GetMapping
-    public ResponseEntity findAllEstoque() {
+    public ResponseEntity<GenericResponse> findAllEstoque() {
         try {
-            return ResponseEntity.ok().body(estoqueService.findAllEstoque());
+            List<EstoqueDTO> estoqueList = estoqueService.findAllEstoque();
+            
+            return getResponseOK("Lista do estoque:", estoqueList); 
         } catch (Exception e) {
-            return ResponseEntity.badRequest().body(e.getMessage());
+            return getResponseException(e);
         }
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity findById(@PathVariable Integer id) {
+    public ResponseEntity<GenericResponse> findById(@PathVariable Integer id) {
         try {
             Estoque estoque = estoqueService.findByIdOrThrow(id);
 
-            return ResponseEntity.ok().body(estoque);
+            return getResponseOK("Estoque encontrado!", estoque.toDTO());
         } catch (Exception e) {
-            return ResponseEntity.badRequest().body(e.getMessage());
+            return getResponseException(e);
         }
     }
     
