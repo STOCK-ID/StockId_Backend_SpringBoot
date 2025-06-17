@@ -29,7 +29,7 @@ public class EstoqueService {
         Estoque newEstoque = new Estoque(estoqueWriteDTO);
         newEstoque.setProduto(produto);
 
-        return estoqueRepository.save(newEstoque);;
+        return estoqueRepository.save(newEstoque);
     }
 
     public List<EstoqueDTO> findAllEstoque() {
