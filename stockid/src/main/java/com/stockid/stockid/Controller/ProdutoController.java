@@ -14,53 +14,96 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.spec.speedspring.core.controller.GenericRestController;
+import com.spec.speedspring.core.responses.GenericResponse;
 import com.stockid.stockid.Service.ProdutoService;
 import com.stockid.stockid.model.Produto;
+import com.stockid.stockid.model.DTOs.ProdutoDTO;
 import com.stockid.stockid.model.WriteDTOs.ProdutoWriteDTO;
 
 
 @RestController
 @RequestMapping("api/produtos")
-public class ProdutoController {
+public class ProdutoController extends GenericRestController{
 
     @Autowired
     private ProdutoService produtoService;
 
     @GetMapping
-    public ResponseEntity<List<Produto>> getAllProduct() {
-        return ResponseEntity.ok(produtoService.getAllProducts());
+    public ResponseEntity<GenericResponse> getAllProduct() {
+        try {
+            List<ProdutoDTO> produtos = produtoService.getAllProducts();
+
+            return getResponseOK("Produtos encontrados!", produtos);
+        } catch (Exception e) {
+            return getResponseException(e);
+        }
     }
 
     @GetMapping("/id/{id}")
-    public ResponseEntity<Produto> getProdutoById(@PathVariable Integer id) {
-        return ResponseEntity.ok(produtoService.getProdutoById(id));
+    public ResponseEntity<GenericResponse> getProdutoById(@PathVariable Integer id) {
+        try {
+            Produto produto = produtoService.getProdutoByIdOrThrow(id);
+
+            return getResponseOK("Produto encontrado com sucesso!", produto.toDTO());
+        } catch (Exception e) {
+            return getResponseException(e);
+        }
     }
 
     @GetMapping("/gtin/{gtin}")
-    public ResponseEntity<Produto> getProdutoByGtin(@PathVariable String gtin) {
-        return ResponseEntity.ok(produtoService.getProdutoByGtin(gtin));
+    public ResponseEntity<GenericResponse> getProdutoByGtin(@PathVariable String gtin) {
+        try {
+            Produto produto = produtoService.getProdutoByGtinOrThrow(gtin);
+
+            return getResponseOK("Produto encontrado com sucesso!", produto.toDTO());
+        } catch (Exception e) {
+            return getResponseException(e);
+        }
     }
 
     @PostMapping
-    public ResponseEntity<Produto> createrProduto(@RequestBody ProdutoWriteDTO produtoWriteDTO) {
-        return ResponseEntity.ok(produtoService.createProduto(produtoWriteDTO));
+    public ResponseEntity<GenericResponse> createrProduto(@RequestBody ProdutoWriteDTO produtoWriteDTO) {
+        try {
+            Produto produto = produtoService.createProduto(produtoWriteDTO);
+            
+            return getResponseOK("Produto cadastrado com sucesso!", produto.toDTO());
+        } catch (Exception e) {
+            return getResponseException(e);
+        }
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<Produto> updateProduto(@PathVariable Integer id, @RequestBody ProdutoWriteDTO produtoWriteDTO) {
-        Produto updateProduto = produtoService.updateProduto(id, produtoWriteDTO);
-        return ResponseEntity.ok(updateProduto);
+    public ResponseEntity<GenericResponse> updateProduto(@PathVariable Integer id, @RequestBody ProdutoWriteDTO produtoWriteDTO) {
+        try {
+            Produto updateProduto = produtoService.updateProduto(id, produtoWriteDTO);
+            
+            return getResponseOK("Produto atualizado com sucesso!", updateProduto.toDTO());
+        } catch (Exception e) {
+            return getResponseException(e);
+        }
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deleteProduto(@PathVariable Integer id) {
-        produtoService.deleteProduto(id);
-        return ResponseEntity.noContent().build();
+    public ResponseEntity<GenericResponse> deleteProduto(@PathVariable Integer id) {
+        try {
+            Produto produto = produtoService.deleteProduto(id);
+
+            return getResponseOK("Produto deletado com sucesso!", produto.toDTO());
+        } catch (Exception e) {
+            return getResponseException(e);
+        }
+
     }
 
     @PatchMapping("/{id}")
-    public ResponseEntity<Void> reactivateProduto(@PathVariable Integer id) {
-        produtoService.reactivateProduto(id);
-        return ResponseEntity.noContent().build();
+    public ResponseEntity<GenericResponse> reactivateProduto(@PathVariable Integer id) {
+        try {
+            Produto produto = produtoService.reactivateProduto(id);
+
+            return getResponseOK("Produto reativado com sucesso", produto.toDTO());
+        } catch (Exception e) {
+            return getResponseException(e);
+        }
     }
  }
