@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 import com.stockid.stockid.Repository.ProdutoRepository;
 import com.stockid.stockid.model.Marca;
 import com.stockid.stockid.model.Produto;
+import com.stockid.stockid.model.DTOs.ProdutoDTO;
 import com.stockid.stockid.model.WriteDTOs.ProdutoWriteDTO;
 
 import jakarta.transaction.Transactional;
@@ -22,16 +23,18 @@ public class ProdutoService {
     @Autowired
     private MarcaService marcaService;
 
-    public List<Produto> getAllProducts() {
-        return produtoRepository.findAll();
+    public List<ProdutoDTO> getAllProducts() {
+        List<Produto> produtos = produtoRepository.findAll();
+
+        return produtos.stream().map(Produto::toDTO).toList();
     }
 
-    public Produto getProdutoById(Integer id) {
+    public Produto getProdutoByIdOrThrow(Integer id) {
         return produtoRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Produto não encontrado com o id: " + id));
     }
 
-    public Produto getProdutoByGtin(String gtin) {
+    public Produto getProdutoByGtinOrThrow(String gtin) {
         
         if(!gtin.matches("\\d{8,14}")) {
             throw new IllegalArgumentException("GTIN deve conter entre 8 e 14 dígitos.");
@@ -58,7 +61,7 @@ public class ProdutoService {
     @Transactional
     public Produto updateProduto(Integer id, ProdutoWriteDTO produtoWriteDTO) {
         
-        Produto lastProduto = getProdutoById(id);
+        Produto lastProduto = getProdutoByIdOrThrow(id);
 
         Marca marca = marcaService.getMarcaByIdOrThrow(produtoWriteDTO.getMarcaId());
 
@@ -73,16 +76,18 @@ public class ProdutoService {
     }
 
     @Transactional
-    public void deleteProduto(Integer id) {
-        Produto produto = getProdutoById(id);
+    public Produto deleteProduto(Integer id) {
+        Produto produto = getProdutoByIdOrThrow(id);
 
         produto.setActive(false);
         produto.setLastUpdate(LocalDateTime.now());
+
+        return produtoRepository.save(produto);
     }
 
     @Transactional
-    public void reactivateProduto(Integer id) {
-        Produto produto = getProdutoById(id);
+    public Produto reactivateProduto(Integer id) {
+        Produto produto = getProdutoByIdOrThrow(id);
 
         if(produto.isActive()) {
             throw new RuntimeException("Produto já está ativo");
@@ -90,5 +95,7 @@ public class ProdutoService {
 
         produto.setActive(true);
         produto.setLastUpdate(LocalDateTime.now());
+
+        return produtoRepository.save(produto);
     }
 }
