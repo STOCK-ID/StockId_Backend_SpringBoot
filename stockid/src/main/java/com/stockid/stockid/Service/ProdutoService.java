@@ -43,7 +43,7 @@ public class ProdutoService {
 
     @Transactional
     public Produto createProduto(ProdutoWriteDTO produtoWriteDTO) {
-        Marca marca = marcaService.getMarcaById(produtoWriteDTO.getMarcaId());
+        Marca marca = marcaService.getMarcaByIdOrThrow(produtoWriteDTO.getMarcaId());
 
         Produto produto = new Produto(marca,
                 produtoWriteDTO.getCategoria(),
@@ -60,7 +60,7 @@ public class ProdutoService {
         
         Produto lastProduto = getProdutoById(id);
 
-        Marca marca = marcaService.getMarcaById(produtoWriteDTO.getMarcaId());
+        Marca marca = marcaService.getMarcaByIdOrThrow(produtoWriteDTO.getMarcaId());
 
         lastProduto.setNome(produtoWriteDTO.getNome());
         lastProduto.setMarca(marca);
