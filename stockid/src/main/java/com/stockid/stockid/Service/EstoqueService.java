@@ -24,7 +24,7 @@ public class EstoqueService {
     ProdutoService produtoService;
 
     public Estoque createLote(EstoqueWriteDTO estoqueWriteDTO) {
-        Produto produto = produtoService.getProdutoById(estoqueWriteDTO.getProdutoId());
+        Produto produto = produtoService.getProdutoByIdOrThrow(estoqueWriteDTO.getProdutoId());
         
         Estoque newEstoque = new Estoque(estoqueWriteDTO);
         newEstoque.setProduto(produto);
