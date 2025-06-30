@@ -14,6 +14,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.spec.speedspring.core.controller.GenericRestController;
+import com.spec.speedspring.core.responses.GenericResponse;
 import com.stockid.stockid.Service.MarcaService;
 import com.stockid.stockid.model.Marca;
 import com.stockid.stockid.model.WriteDTOs.MarcaWriteDTO;
@@ -21,42 +23,75 @@ import com.stockid.stockid.model.WriteDTOs.MarcaWriteDTO;
 
 @RestController
 @RequestMapping("/marca")
-public class MarcaController {
+public class MarcaController extends GenericRestController{
 
     @Autowired
     private MarcaService marcaService;
 
     @GetMapping
-    public ResponseEntity<List<Marca>> getAllMarca() {
-        return ResponseEntity.ok(marcaService.getAllMarca());
+    public ResponseEntity<GenericResponse> getAllMarca() {
+        try {
+            return getResponseOK("Marcas encontradas:", marcaService.getAllMarca());
+        } catch (Exception e) {
+            return getResponseException(e);
+        }
+        
     }
     
     @GetMapping("/{id}")
-    public ResponseEntity<Marca> getMarcaById(@PathVariable Integer id) {
-        return ResponseEntity.ok(marcaService.getMarcaById(id));
+    public ResponseEntity<GenericResponse> getMarcaById(@PathVariable Integer id) {
+        try {
+            Marca marca = marcaService.getMarcaByIdOrThrow(id);
+    
+            return getResponseOK("Marca encontrada:", marca.toDTO());
+        } catch (Exception e) {
+            return getResponseException(e);
+        }
     }
     
     @PostMapping
-    public ResponseEntity<Marca> createMarca(@RequestBody MarcaWriteDTO marcaWriteDTO) {
-        return ResponseEntity.ok(marcaService.createMarca(marcaWriteDTO));
+    public ResponseEntity<GenericResponse> createMarca(@RequestBody MarcaWriteDTO marcaWriteDTO) {
+        try {
+            Marca marca = marcaService.createMarca(marcaWriteDTO);
+            
+            return getResponseOK("Marca criada com sucesso!", marca.toDTO());
+        } catch (Exception e) {
+            return getResponseException(e);
+        }
+
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<Marca> updateMarca(@PathVariable Integer id, @RequestBody MarcaWriteDTO marcaWriteDTO) {
-        Marca updateMarca = marcaService.updateMarca(id, marcaWriteDTO);
-        return ResponseEntity.ok(updateMarca);
+    public ResponseEntity<GenericResponse> updateMarca(@PathVariable Integer id, @RequestBody MarcaWriteDTO marcaWriteDTO) {
+        try {
+            Marca updateMarca = marcaService.updateMarca(id, marcaWriteDTO);
+            
+            return getResponseOK("Marca atualizada com sucesso", updateMarca.toDTO());
+        } catch (Exception e){
+            return getResponseException(e);
+        }
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deleteMarca(@PathVariable Integer id) {
-        marcaService.deleteMarca(id);
-        return ResponseEntity.noContent().build();
+    public ResponseEntity<GenericResponse> deleteMarca(@PathVariable Integer id) {
+        try {
+            Marca marca = marcaService.deleteMarca(id);
+            
+            return getResponseDeleted("Marca deletada com sucesso!", marca.toDTO());
+        } catch (Exception e) {
+            return getResponseException(e);
+        }
     }
 
     @PatchMapping("/{id}")
-    public ResponseEntity<Void> reactivateMarca(@PathVariable Integer id) {
-        marcaService.reactivateMarca(id);
-        return ResponseEntity.noContent().build();
+    public ResponseEntity<GenericResponse> reactivateMarca(@PathVariable Integer id) {
+        try {
+            Marca marca = marcaService.reactivateMarca(id);
+            
+            return getResponseOK("Marca reativada com sucesso!", marca.toDTO());
+        } catch (Exception e) {
+            return getResponseException(e);
+        }
     }
 
 }
