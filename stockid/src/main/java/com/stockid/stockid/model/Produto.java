@@ -1,6 +1,9 @@
 package com.stockid.stockid.model;
 
+import com.spec.speedspring.core.dtoConvertable.DTOConvertable;
 import com.stockid.stockid.enums.EnumCategoria;
+import com.stockid.stockid.model.DTOs.ProdutoDTO;
+import com.stockid.stockid.model.WriteDTOs.ProdutoWriteDTO;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -18,7 +21,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 @EqualsAndHashCode(callSuper = false)
-public class Produto extends IntDomain {
+public class Produto extends IntDomain implements DTOConvertable<ProdutoWriteDTO, ProdutoDTO>{
 
     @ManyToOne
     @JoinColumn(name = "marca_id", nullable = false, unique = false)
@@ -36,4 +39,13 @@ public class Produto extends IntDomain {
 
     @Column(name = "unidade_desc", unique = false, nullable = false, length= 150)
     private String unidadeDesc;
+
+    @Override
+    public Class<ProdutoDTO> getDTOClass() {
+        return ProdutoDTO.class;
+    }
+
+    public boolean getLog() {
+        return false;
+    }
 }
