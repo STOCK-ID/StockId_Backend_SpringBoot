@@ -12,7 +12,7 @@ public class EstoqueWriteDTO {
     private String lote;
     private Integer quantidadeAtual;
     private Integer quantidadeMinima;
-    private String unidadeMEdida;
+    private String unidadeMedida;
     private LocalDate validade;
     private LocalDate entrada;
     private Double precoCompra;
