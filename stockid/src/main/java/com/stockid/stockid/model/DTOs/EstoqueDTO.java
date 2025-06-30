@@ -3,7 +3,6 @@ package com.stockid.stockid.model.DTOs;
 import java.time.LocalDate;
 
 import com.stockid.stockid.enums.EnumStatusLote;
-import com.stockid.stockid.model.Produto;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
