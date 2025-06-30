@@ -16,14 +16,12 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public class EstoqueDTO extends IntDomainDTO {
 
-    private Produto produto;
+    private ProdutoDTO produto;
     private String lote;
     private Integer quantidadeAtual;
     private Integer quantidadeMinima;
     private String unidadeMedida;
     private LocalDate validade;
-    private LocalDate entrada;
-    private Double precoCompra;
     private Double precoVenda;
     private EnumStatusLote statusLote;
 
