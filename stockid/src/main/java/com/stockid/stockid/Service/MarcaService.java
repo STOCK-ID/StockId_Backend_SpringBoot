@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 
 import com.stockid.stockid.Repository.MarcaRepository;
 import com.stockid.stockid.model.Marca;
+import com.stockid.stockid.model.DTOs.MarcaDTO;
 import com.stockid.stockid.model.WriteDTOs.MarcaWriteDTO;
 
 @Service
@@ -16,11 +17,14 @@ public class MarcaService {
     @Autowired
     private MarcaRepository marcaRepository;
 
-    public List<Marca> getAllMarca() {
-        return marcaRepository.findAll();
+    public List<MarcaDTO> getAllMarca() {
+        List<Marca> marcas = marcaRepository.findAll();
+        
+        return marcas.stream().map(Marca::toDTO).toList();
+
     }
 
-    public Marca getMarcaById(Integer id) {
+    public Marca getMarcaByIdOrThrow(Integer id) {
         return marcaRepository.findById(id).
                 orElseThrow(() -> new RuntimeException("Marca not found with id: " + id));
     }
@@ -34,7 +38,7 @@ public class MarcaService {
     }
 
     public Marca updateMarca(Integer id, MarcaWriteDTO marcaWriteDTO) {
-        Marca lastMarca = getMarcaById(id);
+        Marca lastMarca = getMarcaByIdOrThrow(id);
 
         if(lastMarca.getNome().equals(marcaWriteDTO.getNome())) {
             throw new RuntimeException("Nenhuma alteraçcao foi feita");
@@ -48,17 +52,17 @@ public class MarcaService {
         }
     }
 
-    public void deleteMarca(Integer id) {
-        Marca marca = getMarcaById(id);
+    public Marca deleteMarca(Integer id) {
+        Marca marca = getMarcaByIdOrThrow(id);
 
         marca.setActive(false);
         marca.setLastUpdate(LocalDateTime.now());
 
-        marcaRepository.save(marca);
+        return marcaRepository.save(marca);
     }
 
-    public void reactivateMarca(Integer id) {
-        Marca marca = getMarcaById(id);
+    public Marca reactivateMarca(Integer id) {
+        Marca marca = getMarcaByIdOrThrow(id);
 
         if (marca.isActive()) {
             throw new RuntimeException("Marca já está ativa");
@@ -67,6 +71,6 @@ public class MarcaService {
         marca.setActive(true);
         marca.setLastUpdate(LocalDateTime.now());
 
-        marcaRepository.save(marca);
+        return marcaRepository.save(marca);
     }
 }
