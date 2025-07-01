@@ -41,7 +41,7 @@ public class Estoque extends IntDomain implements DTOConvertable<EstoqueWriteDTO
     @Column(nullable = false)
     private String unidadeMedida;
 
-    @Column(name = "dt_validade", nullable = false)
+    @Column(name = "dt_validade", nullable = true)
     private LocalDate validade;
 
     @Column(name = "dt_entrada", nullable = false)
