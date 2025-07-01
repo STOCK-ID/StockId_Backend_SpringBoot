@@ -37,6 +37,12 @@ public class MarcaService {
         return newMarca;
     }
 
+    public Marca createMarca(Marca marca) {
+        Marca newMarca = marcaRepository.save(marca);
+
+        return newMarca;
+    }
+
     public Marca updateMarca(Integer id, MarcaWriteDTO marcaWriteDTO) {
         Marca lastMarca = getMarcaByIdOrThrow(id);
 
