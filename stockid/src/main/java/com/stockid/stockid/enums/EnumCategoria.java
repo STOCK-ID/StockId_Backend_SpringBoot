@@ -1,9 +1,13 @@
 package com.stockid.stockid.enums;
 
 public enum EnumCategoria {
-    ALIMENTOS,
+    ALIMENTO,
     BEBIDAS,
     HIGIENE,
     LIMPEZA,
+    ELETRONICO,
+    VESTUARIO,
+    PAPELARIA,
+    UTENSILIO_DOMESTICO,
     OUTROS
 }
