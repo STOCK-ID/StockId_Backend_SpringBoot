@@ -4,9 +4,13 @@ import java.time.LocalDate;
 
 import com.stockid.stockid.enums.EnumStatusLote;
 
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 @Data
+@AllArgsConstructor
+@NoArgsConstructor
 public class EstoqueWriteDTO {
     private Integer produtoId;
     private String lote;
